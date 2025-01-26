@@ -11,7 +11,7 @@ abstract class BaseModel
 
     public function __construct()
     {
-        $dbPath = __DIR__ . '/../../database/chat.db';
+        $dbPath = getenv('DB_PATH') ?: __DIR__ . '/../../database/chat.db';
         $this->db = new PDO("sqlite:$dbPath");
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
