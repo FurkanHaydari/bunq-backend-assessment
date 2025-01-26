@@ -1,6 +1,37 @@
-/vendor/
-.phpunit.result.cache
-/database/*.db
+# .gitignore
+
+### PHP ###
+vendor/
+composer.lock
+composer.phar
+
+### Environment ###
 .env
+.env.local
+.env.*.local
+
+### SQLite Database ###
+database/chat.db
+
+### Logs ###
+*.log
+logs/
+
+### IDE ###
 .idea/
 .vscode/
+*.swp
+*.swo
+
+### OS Generated ###
+.DS_Store
+.DS_Store?
+Thumbs.db
+
+### Tests ###
+.phpunit.result.cache
+coverage/
+
+### Slim Cache/Temp ###
+tmp/
+cache/

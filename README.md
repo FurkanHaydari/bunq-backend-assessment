@@ -19,31 +19,77 @@ A PHP-based chat application backend built with Slim Framework and SQLite. This 
   - List messages in a group
   - Message access control (only group members)
 
-## Requirements
+## System Requirements
 
 - PHP 8.1 or higher
-- SQLite3
-- Composer
+- Composer 2.0+
+- Required PHP extensions: pdo_sqlite, mbstring, xml, curl, zip
 
-## Installation
+## Installation Guide for Linux
 
-1. Clone the repository:
+### 1️⃣ Install PHP and Required Extensions
+
+#### For Debian/Ubuntu (APT):
 ```bash
-git clone <repository-url>
-cd chat-application
+sudo apt update
+sudo apt install php php-cli php-fpm php-sqlite3 php-mbstring php-xml php-curl php-zip
 ```
 
-2. Install dependencies:
+#### For Fedora/RHEL (DNF):
+```bash
+sudo dnf install php php-cli php-fpm php-sqlite3 php-mbstring php-xml php-curl php-zip
+```
+
+Verify the installation:
+```bash
+php -v  # Should be PHP 8.1+
+php -m | grep sqlite  # Should show pdo_sqlite
+```
+
+### 2️⃣ Install Composer (PHP Package Manager)
+
+```bash
+# Download and make Composer globally accessible
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+sudo chmod +x /usr/local/bin/composer
+
+# Verify installation
+composer --version  # Should be v2.0+
+```
+
+### 3️⃣ Project Setup
+
+1. Install project dependencies:
 ```bash
 composer install
 ```
 
-3. Set up the database:
+2. Set up the database:
 ```bash
-touch database/chat.db
+# Ensure correct permissions
+chmod 755 database/
+# Initialize database using PHP
+php scripts/init_db.php
 ```
 
-The schema will be automatically created when the application starts.
+### 🚨 Database Troubleshooting
+
+#### Permission Issues
+If you encounter permission errors when creating the database:
+```bash
+sudo chown -R $USER:$USER database/
+chmod 755 database/
+```
+
+#### Verify Database Creation
+To verify that the database was created properly:
+```bash
+php scripts/test_db.php
+```
+
+This should show a list of the created tables (users, groups, group_members, messages).
+
 
 ## API Endpoints
 
@@ -114,3 +160,4 @@ The API uses standard HTTP status codes:
 - 403: Forbidden (e.g., non-member trying to access group messages)
 - 404: Not Found (resource doesn't exist)
 - 500: Internal Server Error
+
